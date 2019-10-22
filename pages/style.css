@@ -1,27 +1,56 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 
+body[class='light-mode'] {
+	--background-color: #fff;
+	--text-color: #000;
+	--text-area-border: #eaeaea;
+	--btn-color: #fff;
+}
+
+body[class='dark-mode'] {
+	--background-color: #0f111a;
+	--text-color: #fff;
+	--text-area-border: #1a1c25;
+	--btn-color: #333;
+}
+
 ::selection {
 	background: #79ffe1;
 }
 
 body {
 	font-family: Montserrat;
+	background: var(--background-color);
+	color: var(--text-color);
 }
+
 button {
-	border: 1px solid #eaeaea;
+	border: 1px solid var(--text-area-border);
+	background: var(--btn-color);
 	border-radius: 100%;
 	padding: 1rem;
 	cursor: pointer;
 	margin-bottom: 20px;
 }
+
 button > svg {
+	color: var(--text-area-border);
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.play-icon {
 	position: relative;
 	left: 2px;
 	color: #eaeaea;
 }
+
 button:hover {
 	border: 1px solid #000;
 }
+
 button:hover > svg {
 	color: #000;
 }
@@ -29,6 +58,7 @@ button:hover > svg {
 button:focus {
 	outline: 0;
 }
+
 textarea {
 	width: 100%;
 	resize: none;
@@ -45,19 +75,21 @@ textarea {
 	min-height: 100px;
 	resize: none;
 	width: 100%;
-	color: #000;
+	color: var(--text-color);
 	border-radius: 0px;
 	border-width: initial;
 	border-style: none;
 	border-color: initial;
 	border-image: initial;
 	outline: 0px;
-	border: 1px solid #eaeaea;
+	border: 1px solid var(--text-area-border);
 	padding: 1rem;
 }
 
 .flex {
 	display: flex;
+}
+.h-90 {
 	height: 90vh;
 }
 .flex div {

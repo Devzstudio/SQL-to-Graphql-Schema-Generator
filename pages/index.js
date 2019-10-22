@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import useDarkMode from 'use-dark-mode';
+
 import Head from 'next/head';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Play, Clipboard } from 'react-feather';
@@ -10,6 +12,7 @@ import './style.css';
 const Home = () => {
 	const [query, setQuery] = useState('');
 	const [schema, setSchema] = useState('');
+	const darkMode = useDarkMode(false);
 
 	const handleQuery = e => setQuery(e.target.value);
 
@@ -17,8 +20,11 @@ const Home = () => {
 		const lines = query.split('\n');
 		let graphqlSchema = '';
 		for (var i = 0; i < lines.length; i++) {
-			if (lines[i].includes('CREATE TABLE')) {
-				const tableName = lines[i].replace('CREATE TABLE', '').replace(/[^\w\s]/gi, '');
+			if (lines[i].toLowerCase().includes('create table')) {
+				const tableName = lines[i]
+					.toLowerCase()
+					.replace('create table', '')
+					.replace(/[^\w\s]/gi, '');
 				graphqlSchema += `type ${ucwords(tableName.trim())}{
         `;
 			}
@@ -66,15 +72,18 @@ const Home = () => {
 				<meta property="twitter:image" content="/cover.png" />
 			</Head>
 
-			<Nav />
+			<Nav currentMode={darkMode.value} changeMode={darkMode.toggle} />
 
 			<div className="hero">
-				<div className="flex">
+				<div className="flex h-90 ">
 					<div className="flex">
-						<textarea onBlur={handleQuery} placeholder="SQL Create Table Query"></textarea>
+						<textarea
+							onBlur={handleQuery}
+							placeholder="Paste Your SQL Query Here (Create Table ....)"
+						></textarea>
 						<div className="btn-wrapper">
 							<button onClick={makeSchema}>
-								<Play />
+								<Play className="play-icon" />
 							</button>
 							{schema && (
 								<CopyToClipboard text={schema} onCopy={() => alert('Copied')}>

@@ -1,19 +1,26 @@
 import React from 'react';
-import Link from 'next/link';
+import { Sun, Moon } from 'react-feather';
 
-const Nav = () => (
+const Nav = ({ currentMode: { value }, changeMode }) => (
 	<nav>
 		<ul>
 			<li>
 				<span className="logo">SQL To GraphQL Schema Generator</span>
 			</li>
-			<div>
+			<div className="flex">
 				<li>
-					<Link href="https://github.com/Devzstudio/SQL-to-Graphql-Schema-Generator">
-						<a target="_BLANK" rel="noreferrer,noopener">
-							Github
-						</a>
-					</Link>
+					<a
+						href="https://github.com/Devzstudio/SQL-to-Graphql-Schema-Generator"
+						target="_BLANK"
+						rel="noreferrer,noopener"
+					>
+						<img src="https://img.shields.io/github/stars/devzstudio/SQL-to-Graphql-Schema-Generator?style=social" />
+					</a>
+				</li>
+				<li>
+					<span className="pointer" onClick={changeMode}>
+						{value ? <Sun size="14" /> : <Moon size="14" />}
+					</span>
 				</li>
 			</div>
 		</ul>
