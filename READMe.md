@@ -27,10 +27,6 @@ Check live on https://sql-to-graphql.now.sh/
 
 Contributions, issues and feature requests are welcome! 😍
 
-You can add custom roadmap by creating a new file in data/roadmap/{name}.js and add that in data/roadmap/index.js.
-
-If you want to add programming language details then add language name.js in data/LangDetails.js
-
 ## Show your support
 
 Give a ⭐️ if this project helped you! 🥰
