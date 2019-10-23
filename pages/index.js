@@ -7,9 +7,10 @@ import { Play, Clipboard } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 
 import Head from 'next/head';
+// import useLocalStorage from '../helpers/useLocalStorage';
 
 import Nav from '../components/nav';
-import { ucwords, selectDatatype } from '../helpers/index';
+import { ucwords, selectDatatype, checkField } from '../helpers/index';
 import './style.css';
 
 const Home = () => {
@@ -43,20 +44,20 @@ const Home = () => {
         `;
 			}
 
-			if (lines[i].trim().startsWith('`')) {
+			if (lines[i].trim().startsWith(')')) {
+				graphqlSchema += `}
+`;
+			}
+
+			if (checkField(lines[i].trim())) {
 				const fieldLine = lines[i].trim();
 				const getField = fieldLine.substr(0, fieldLine.indexOf(' ')).replace(/[^\w\s]/gi, '');
 				const notNull = fieldLine.includes('NOT NULL');
 				let type = '';
 				if (getField === 'id' || getField.includes('_id')) type = 'ID';
 				else type = selectDatatype(fieldLine.toLowerCase());
-				graphqlSchema += `${getField}: ${type}${notNull && '!'}
+				graphqlSchema += `${getField}: ${type}${notNull ? '!' : ''}
         `;
-			}
-
-			if (lines[i].trim().startsWith(')')) {
-				graphqlSchema += `}
-`;
 			}
 
 			setSchema(graphqlSchema);
@@ -66,23 +67,23 @@ const Home = () => {
 	return (
 		<div>
 			<Head>
-				<title>SQL to Graphql Schema Generator</title>
+				<title>SQL to GraphQL Schema Generator</title>
 				<link rel="icon" href="/favicon.ico" />
-				<meta charset="UTF-8" />
-				<meta name="title" content="SQL to Graphql Schema Generator" />
-				<meta name="description" content="Generate graphql schema from SQL Query" />
-				<meta name="keywords" content="sql,graphql, schema, graphql schema generator, schema generator" />
+				<meta charSet="UTF-8" />
+				<meta name="title" content="SQL to GraphQL Schema Generator" />
+				<meta name="description" content="Generate GraphQL schema from SQL Query" />
+				<meta name="keywords" content="sql,GraphQL, schema, GraphQL schema generator, schema generator" />
 				<meta name="author" content="Devzstudio" />
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 				<meta property="og:type" content="website" />
-				<meta property="og:title" content="SQL to Graphql Schema Generator" />
-				<meta property="og:description" content="Generate graphql schema from SQL Query" />
+				<meta property="og:title" content="SQL to GraphQL Schema Generator" />
+				<meta property="og:description" content="Generate GraphQL schema from SQL Query" />
 				<meta property="og:image" content="/cover.png" />
 
 				<meta property="twitter:card" content="summary_large_image" />
-				<meta property="twitter:title" content="SQL to Graphql Schema Generator" />
-				<meta property="twitter:description" content="Generate graphql schema from SQL Query" />
+				<meta property="twitter:title" content="SQL to GraphQL Schema Generator" />
+				<meta property="twitter:description" content="Generate GraphQL schema from SQL Query" />
 				<meta property="twitter:image" content="/cover.png" />
 			</Head>
 

@@ -16,4 +16,15 @@ const selectDatatype = fieldLine => {
 		return 'Int';
 };
 
-export { ucwords, selectDatatype };
+const checkField = line => {
+	const dataTypes = ['int', 'varchar', 'char', 'numeric', 'bigint', 'real', 'tinyint', 'decimal', 'text', 'float'];
+
+	const checkFields = dataTypes.map(it => {
+		if (line.includes(it)) return true;
+	});
+
+	if (checkFields.includes(true)) return true;
+	return false;
+};
+
+export { ucwords, selectDatatype, checkField };
