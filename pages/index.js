@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useDarkMode from 'use-dark-mode';
+import sqlPrettier from 'sql-prettier';
 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Play, Clipboard } from 'react-feather';
@@ -19,7 +20,6 @@ const Home = () => {
 	useHotkeys('ctrl+v', async () => {
 		const text = await navigator.clipboard.readText();
 		setQuery(text);
-		console.log(text);
 	});
 
 	useHotkeys('ctrl+space', () => {
@@ -29,7 +29,9 @@ const Home = () => {
 	const handleQuery = e => setQuery(e.target.value);
 
 	const makeSchema = () => {
-		const lines = query.split('\n');
+		const newQuery = sqlPrettier.format(query);
+		// setQuery(newQuery);
+		const lines = newQuery.split('\n');
 		let graphqlSchema = '';
 		for (var i = 0; i < lines.length; i++) {
 			if (lines[i].toLowerCase().includes('create table')) {
@@ -52,7 +54,7 @@ const Home = () => {
         `;
 			}
 
-			if (lines[i].startsWith(')')) {
+			if (lines[i].trim().startsWith(')')) {
 				graphqlSchema += `}
 `;
 			}
@@ -90,7 +92,8 @@ const Home = () => {
 				<div className="flex h-90 ">
 					<div className="flex">
 						<textarea
-							onBlur={handleQuery}
+							onChange={handleQuery}
+							value={query}
 							placeholder="Paste Your SQL Query Here (Create Table ....)"
 						></textarea>
 						<div className="btn-wrapper">

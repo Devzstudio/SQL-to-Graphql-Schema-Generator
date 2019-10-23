@@ -36,7 +36,7 @@ button {
 }
 
 button > svg {
-	color: var(--text-color);
+	color: var(--text-area-border);
 }
 
 .logo {
