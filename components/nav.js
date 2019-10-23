@@ -1,11 +1,14 @@
 import React from 'react';
-import { Sun, Moon } from 'react-feather';
+import { Sun, Moon, RotateCw } from 'react-feather';
 
 const Nav = ({ currentMode: { value }, changeMode }) => (
 	<nav>
 		<ul>
 			<li>
-				<span className="logo">SQL To GraphQL Schema Generator</span>
+				<span className="logo">
+					<RotateCw />
+					SQL To GraphQL Schema Generator
+				</span>
 			</li>
 			<div className="flex">
 				<li>
@@ -33,9 +36,7 @@ const Nav = ({ currentMode: { value }, changeMode }) => (
 			nav {
 				text-align: center;
 			}
-			.logo {
-				font-family: Montserrat;
-			}
+
 			ul {
 				display: flex;
 				justify-content: space-between;

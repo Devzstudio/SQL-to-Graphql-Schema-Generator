@@ -15,6 +15,7 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "16.10.2",
     "react-feather": "^2.0.3",
+    "react-hotkeys-hook": "^1.5.3",
     "use-dark-mode": "^2.3.1"
   }
 }

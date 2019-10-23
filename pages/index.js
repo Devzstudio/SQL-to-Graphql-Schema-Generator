@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import useDarkMode from 'use-dark-mode';
 
-import Head from 'next/head';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Play, Clipboard } from 'react-feather';
+import { useHotkeys } from 'react-hotkeys-hook';
+
+import Head from 'next/head';
 
 import Nav from '../components/nav';
 import { ucwords, selectDatatype } from '../helpers/index';
@@ -13,6 +15,16 @@ const Home = () => {
 	const [query, setQuery] = useState('');
 	const [schema, setSchema] = useState('');
 	const darkMode = useDarkMode(false);
+
+	useHotkeys('ctrl+v', async () => {
+		const text = await navigator.clipboard.readText();
+		setQuery(text);
+		console.log(text);
+	});
+
+	useHotkeys('ctrl+space', () => {
+		makeSchema();
+	});
 
 	const handleQuery = e => setQuery(e.target.value);
 
@@ -82,15 +94,25 @@ const Home = () => {
 							placeholder="Paste Your SQL Query Here (Create Table ....)"
 						></textarea>
 						<div className="btn-wrapper">
-							<button onClick={makeSchema}>
-								<Play className="play-icon" />
-							</button>
-							{schema && (
-								<CopyToClipboard text={schema} onCopy={() => alert('Copied')}>
-									<button>
-										<Clipboard />
+							<section>
+								<div className="option">
+									<button onClick={makeSchema}>
+										<Play className="play-icon" />
 									</button>
-								</CopyToClipboard>
+									<span className="tooltip">Run</span>
+								</div>
+							</section>
+							{schema && (
+								<section>
+									<div className="option">
+										<CopyToClipboard text={schema} onCopy={() => alert('Copied')}>
+											<button>
+												<Clipboard />
+											</button>
+										</CopyToClipboard>
+										<span className="tooltip">Copy</span>
+									</div>
+								</section>
 							)}
 						</div>
 					</div>

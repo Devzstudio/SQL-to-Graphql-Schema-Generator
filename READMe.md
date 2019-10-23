@@ -17,11 +17,49 @@ Check live on https://sql-to-graphql.now.sh/
 
 -   Copy Generated Code to Clipboard
 
+-   Add Dark Mode
+
+## 🗒 Docs
+
+-   Paste SQL Query example.
+
+```
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(225) NOT NULL,
+  `password` varchar(225) NOT NULL,
+  `email` varchar(225) NOT NULL,
+  `avatar` varchar(225) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url` (`url`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+```
+
+-   Click on the Run Button
+
+## 🔌 Usage
+
+-   Try Online : https://sql-to-graphql.now.sh/
+
+-   Or Clone the repo
+
+```
+git clone https://github.com/Devzstudio/SQL-to-Graphql-Schema-Generator.git
+```
+
+-   Install dependencies and start
+
+```
+npm install
+```
+
+```
+npm run dev
+```
+
 ## 🛣 ToDo
 
 -   Add Keyboard Shortcut for Paste and Copy
-
--   Add Dark Mode
 
 ## 🤝 Contributing
 
