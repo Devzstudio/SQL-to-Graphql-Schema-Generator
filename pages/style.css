@@ -5,15 +5,17 @@ body[class='light-mode'] {
 	--text-color: #000;
 	--text-area-border: #eaeaea;
 	--btn-color: #fff;
-	--btn-hover: #000;
+	--btn-hover: #565656;
+	--btn-text-hover: #fbfbfb;
 }
 
 body[class='dark-mode'] {
 	--background-color: #0f111a;
 	--text-color: #fff;
 	--text-area-border: #1a1c25;
-	--btn-color: #1a1c24;
-	--btn-hover: #fff;
+	--btn-color: #fff;
+	--btn-hover: #1a1c24;
+	--btn-text-hover: #4186f5;
 }
 
 ::selection {
@@ -28,7 +30,7 @@ body {
 
 button {
 	border: 1px solid var(--text-area-border);
-	background: var(--btn-color);
+	background: var(--btn-hover);
 	border-radius: 100%;
 	padding: 1rem;
 	cursor: pointer;
@@ -36,7 +38,7 @@ button {
 }
 
 button > svg {
-	color: var(--text-area-border);
+	color: var(--btn-color);
 }
 
 .logo {
@@ -62,7 +64,9 @@ button > svg {
 .option .tooltip {
 	display: none;
 }
-
+.option:hover {
+	color: #f1f1f1;
+}
 .option:hover .tooltip {
 	display: inline;
 }
@@ -82,7 +86,7 @@ button:hover {
 }
 
 button:hover > svg {
-	color: var(--btn-hover);
+	color: var(--btn-text-hover);
 }
 
 button:focus {

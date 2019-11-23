@@ -1,7 +1,7 @@
 const ucwords = string => string.charAt(0).toUpperCase() + string.slice(1);
 
 const selectDatatype = fieldLineRaw => {
-  const fieldLine = fieldLineRaw.toLowerCase()
+	const fieldLine = fieldLineRaw.toLowerCase();
 
 	if (fieldLine.includes('varchar') || fieldLine.includes('text') || fieldLine.includes('char')) return 'String';
 
@@ -19,9 +19,12 @@ const selectDatatype = fieldLineRaw => {
 };
 
 const checkField = lineRaw => {
-  const line = lineRaw.toLowerCase()
+	const line = lineRaw.toLowerCase();
 
-  const dataTypes = ['int', 'varchar', 'char', 'numeric', 'bigint', 'real', 'tinyint', 'decimal', 'text', 'float'];
+	const excludeKeywords = ['charset'];
+	if (line.includes(excludeKeywords)) return false;
+
+	const dataTypes = ['int', 'varchar', 'char', 'numeric', 'bigint', 'real', 'tinyint', 'decimal', 'text', 'float'];
 
 	const checkFields = dataTypes.map(it => {
 		if (line.includes(it)) return true;
