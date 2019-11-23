@@ -41,6 +41,10 @@ button > svg {
 	color: var(--btn-color);
 }
 
+button:hover {
+	border: 1px solid var(--btn-text-hover) !important;
+}
+
 .logo {
 	font-family: Montserrat;
 	display: flex;

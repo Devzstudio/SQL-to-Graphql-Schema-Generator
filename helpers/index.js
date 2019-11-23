@@ -38,8 +38,16 @@ const generateTableName = str => {
 	const getUnderscore = str.indexOf('_');
 	if (getUnderscore !== -1) {
 		let string = str.split('');
-		string[getUnderscore + 1] = string[getUnderscore + 1].toUpperCase();
-		string.splice(getUnderscore, 1);
+
+		for (let [i] in str.split('')) {
+			if (string[i] === '_') {
+				let pos = Number(i) + 1;
+				console.log('Make UpperCase', string[pos], pos);
+				string[pos] = string[pos].toUpperCase();
+				string.splice(Number(i), 1);
+			}
+		}
+
 		string = string.join('');
 		return ucwords(string);
 	}
