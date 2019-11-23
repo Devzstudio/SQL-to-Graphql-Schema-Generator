@@ -10,7 +10,7 @@ import Head from 'next/head';
 // import useLocalStorage from '../helpers/useLocalStorage';
 
 import Nav from '../components/nav';
-import { ucwords, selectDatatype, checkField } from '../helpers/index';
+import { generateTableName, selectDatatype, checkField } from '../helpers/index';
 import './style.css';
 
 const Home = () => {
@@ -40,7 +40,7 @@ const Home = () => {
 					.toLowerCase()
 					.replace('create table', '')
 					.replace(/[^\w\s]/gi, '');
-				graphqlSchema += `type ${ucwords(tableName.trim())}{
+				graphqlSchema += `type ${generateTableName(tableName.trim())} {
         `;
 			}
 

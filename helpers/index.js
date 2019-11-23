@@ -34,4 +34,16 @@ const checkField = lineRaw => {
 	return false;
 };
 
-export { ucwords, selectDatatype, checkField };
+const generateTableName = str => {
+	const getUnderscore = str.indexOf('_');
+	if (getUnderscore !== -1) {
+		let string = str.split('');
+		string[getUnderscore + 1] = string[getUnderscore + 1].toUpperCase();
+		string.splice(getUnderscore, 1);
+		string = string.join('');
+		return ucwords(string);
+	}
+	return ucwords(str);
+};
+
+export { ucwords, selectDatatype, checkField, generateTableName };
