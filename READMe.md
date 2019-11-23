@@ -17,7 +17,7 @@ Check live on https://sql-to-graphql.now.sh/
 
 -   Copy Generated Code to Clipboard
 
--   Add Dark Mode
+-   Dark Mode
 
 ## 🗒 Docs
 
