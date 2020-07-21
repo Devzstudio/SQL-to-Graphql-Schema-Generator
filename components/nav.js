@@ -22,13 +22,13 @@ const Nav = ({ currentMode: { value }, changeMode }) => (
 							<img src="https://img.shields.io/github/stars/devzstudio/SQL-to-Graphql-Schema-Generator?style=social" />
 						</a>
 					</li>
-					<li>
+					<li className="change-theme  theme-switch">
 						<span className="pointer" onClick={changeMode}>
 							{value ? <Sun size="14" /> : <Moon size="14" />}
 						</span>
 					</li>
 				</div>
-				<li className="border-left">
+				<li className="border-left pl-2">
 					<a
 						target="_BLANK"
 						href="https://codekeep.io?ref=sql-to-graphql"
@@ -61,7 +61,7 @@ const Nav = ({ currentMode: { value }, changeMode }) => (
 				margin: 0;
 			}
 			nav > ul {
-				padding: 0px 16px;
+				padding: 0px 0 0 16px;
 			}
 			.logo {
 				padding: 10px;

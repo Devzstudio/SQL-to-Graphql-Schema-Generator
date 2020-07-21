@@ -7,6 +7,8 @@ body[class='light-mode'] {
 	--btn-color: #fff;
 	--btn-hover: #565656;
 	--btn-text-hover: #fbfbfb;
+
+	--cm-variable: #555555;
 }
 
 body[class='dark-mode'] {
@@ -16,6 +18,7 @@ body[class='dark-mode'] {
 	--btn-color: #fff;
 	--btn-hover: #1a1c24;
 	--btn-text-hover: #4186f5;
+	--cm-variable: #eeffff;
 }
 
 ::selection {
@@ -207,16 +210,27 @@ textarea {
 	margin-right: 10px;
 }
 
+.pl-2 {
+	padding-left: 2rem !important;
+	padding-right: 2rem !important;
+	background: var(--text-area-border);
+	border-left: 1px solid #128cf0;
+}
+
+.theme-switch {
+	padding: 0 2rem !important;
+}
+
 /* Codemirror */
 .CodeMirror {
-	font-family: Montserrat;
+	font-family: Montserrat !important;
 	min-height: 90vh !important;
 	max-width: calc(100vw - 50vw);
 	line-height: 1.2em;
 }
 .cm-s-material.CodeMirror {
 	background-color: var(--background);
-	color: #eeffff;
+	color: var(--cm-variable);
 }
 
 .cm-s-material .CodeMirror-gutters {
@@ -271,7 +285,7 @@ textarea {
 }
 
 .cm-s-material .cm-variable-2 {
-	color: #eeffff;
+	color: var(--cm-variable);
 }
 
 .cm-s-material .cm-variable-3,

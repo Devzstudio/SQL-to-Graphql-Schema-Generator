@@ -2,39 +2,11 @@ import React, { useState } from 'react';
 import useDarkMode from 'use-dark-mode';
 import sqlPrettier from 'sql-prettier';
 import dynamic from 'next/dynamic';
-import { UnControlled as CodeMirror } from 'react-codemirror2';
 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Play, Clipboard } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
 import Notifications, { notify } from 'react-notify-toast';
-
-import 'codemirror/lib/codemirror.css';
-import('codemirror/mode/sql/sql');
-
-if (typeof navigator === undefined) {
-	import('codemirror/mode/sql/sql');
-}
-
-// dynamic(import('codemirror/mode/sql/sql'), {
-// 	ssr: false,
-// });
-
-dynamic(import('codemirror-graphql/mode'), {
-	ssr: false,
-});
-dynamic(import('codemirror-graphql/hint'), {
-	ssr: false,
-});
-dynamic(import('codemirror-graphql/lint'), {
-	ssr: false,
-});
-dynamic(import('codemirror/addon/lint/lint'), {
-	ssr: false,
-});
-dynamic(import('codemirror/addon/hint/show-hint'), {
-	ssr: false,
-});
 
 import Head from 'next/head';
 // import useLocalStorage from '../helpers/useLocalStorage';
@@ -43,8 +15,18 @@ import Nav from '../components/nav';
 import { generateTableName, selectDatatype, checkField } from '../helpers/index';
 import './style.css';
 
+import 'codemirror/lib/codemirror.css';
+import('codemirror/mode/sql/sql.js');
+import('codemirror-graphql/mode');
+import('codemirror-graphql/hint');
+import('codemirror-graphql/lint');
+import('codemirror/addon/lint/lint');
+import('codemirror/addon/hint/show-hint');
+
+const CodePart = dynamic(() => import('../components/CodePart'), { ssr: false });
+
 const Home = () => {
-	const [query, setQuery] = useState('');
+	const [query, setQuery] = useState();
 	const [schema, setSchema] = useState('');
 	const darkMode = useDarkMode(false);
 
@@ -121,18 +103,7 @@ const Home = () => {
 				<div className="flex h-90">
 					<div className="flex">
 						<div className="right-border">
-							<CodeMirror
-								height="600px"
-								value={query}
-								options={{
-									mode: 'text/x-mysql',
-									theme: 'material',
-									lineNumbers: true,
-								}}
-								onChange={(editor, data, value) => {
-									setQuery(value);
-								}}
-							/>
+							<CodePart value={query} mode="text/x-mysql" onChange={setQuery} />
 						</div>
 
 						<span className="btn-wrapper">
@@ -159,16 +130,7 @@ const Home = () => {
 						</span>
 					</div>
 					<div>
-						<CodeMirror
-							value={schema}
-							height="100%"
-							options={{
-								mode: 'graphql',
-								theme: 'material',
-								lineNumbers: true,
-								readOnly: true,
-							}}
-						/>
+						<CodePart value={schema} mode="graphql" />
 					</div>
 				</div>
 			</div>
