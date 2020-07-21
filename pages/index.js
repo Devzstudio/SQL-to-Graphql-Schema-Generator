@@ -1,10 +1,40 @@
 import React, { useState } from 'react';
 import useDarkMode from 'use-dark-mode';
 import sqlPrettier from 'sql-prettier';
+import dynamic from 'next/dynamic';
+import { UnControlled as CodeMirror } from 'react-codemirror2';
 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Play, Clipboard } from 'react-feather';
 import { useHotkeys } from 'react-hotkeys-hook';
+import Notifications, { notify } from 'react-notify-toast';
+
+import 'codemirror/lib/codemirror.css';
+import('codemirror/mode/sql/sql');
+
+if (typeof navigator === undefined) {
+	import('codemirror/mode/sql/sql');
+}
+
+// dynamic(import('codemirror/mode/sql/sql'), {
+// 	ssr: false,
+// });
+
+dynamic(import('codemirror-graphql/mode'), {
+	ssr: false,
+});
+dynamic(import('codemirror-graphql/hint'), {
+	ssr: false,
+});
+dynamic(import('codemirror-graphql/lint'), {
+	ssr: false,
+});
+dynamic(import('codemirror/addon/lint/lint'), {
+	ssr: false,
+});
+dynamic(import('codemirror/addon/hint/show-hint'), {
+	ssr: false,
+});
 
 import Head from 'next/head';
 // import useLocalStorage from '../helpers/useLocalStorage';
@@ -26,8 +56,6 @@ const Home = () => {
 	useHotkeys('ctrl+space', () => {
 		makeSchema();
 	});
-
-	const handleQuery = e => setQuery(e.target.value);
 
 	const makeSchema = () => {
 		const newQuery = sqlPrettier.format(query);
@@ -89,15 +117,25 @@ const Home = () => {
 
 			<Nav currentMode={darkMode.value} changeMode={darkMode.toggle} />
 
-			<div className="hero">
-				<div className="flex h-90 ">
+			<div className="hero top-border">
+				<div className="flex h-90">
 					<div className="flex">
-						<textarea
-							onChange={handleQuery}
-							value={query}
-							placeholder="Paste Your SQL Query Here (Create Table ....)"
-						></textarea>
-						<div className="btn-wrapper">
+						<div className="right-border">
+							<CodeMirror
+								height="600px"
+								value={query}
+								options={{
+									mode: 'text/x-mysql',
+									theme: 'material',
+									lineNumbers: true,
+								}}
+								onChange={(editor, data, value) => {
+									setQuery(value);
+								}}
+							/>
+						</div>
+
+						<span className="btn-wrapper">
 							<section>
 								<div className="option">
 									<button onClick={makeSchema}>
@@ -109,7 +147,7 @@ const Home = () => {
 							{schema && (
 								<section>
 									<div className="option">
-										<CopyToClipboard text={schema} onCopy={() => alert('Copied')}>
+										<CopyToClipboard text={schema} onCopy={() => notify.show('Copied!', 'success')}>
 											<button>
 												<Clipboard />
 											</button>
@@ -118,13 +156,23 @@ const Home = () => {
 									</div>
 								</section>
 							)}
-						</div>
+						</span>
 					</div>
 					<div>
-						<textarea placeholder="Graphql Schema" value={schema} readOnly></textarea>
+						<CodeMirror
+							value={schema}
+							height="100%"
+							options={{
+								mode: 'graphql',
+								theme: 'material',
+								lineNumbers: true,
+								readOnly: true,
+							}}
+						/>
 					</div>
 				</div>
 			</div>
+			<Notifications />
 		</div>
 	);
 };

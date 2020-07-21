@@ -1,6 +1,6 @@
-const ucwords = string => string.charAt(0).toUpperCase() + string.slice(1);
+const ucwords = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
-const selectDatatype = fieldLineRaw => {
+const selectDatatype = (fieldLineRaw) => {
 	const fieldLine = fieldLineRaw.toLowerCase();
 
 	if (fieldLine.includes('varchar') || fieldLine.includes('text') || fieldLine.includes('char')) return 'String';
@@ -18,15 +18,17 @@ const selectDatatype = fieldLineRaw => {
 		return 'Int';
 };
 
-const checkField = lineRaw => {
+const checkField = (lineRaw) => {
 	const line = lineRaw.toLowerCase();
-
-	const excludeKeywords = ['charset'];
-	if (line.includes(excludeKeywords)) return false;
+	const excludeKeywords = ['charset', 'constraint', 'foreign key', 'engine'];
+	const isBlacklisted = excludeKeywords.some((keyword) => line.includes(keyword));
+	if (isBlacklisted) {
+		return false;
+	}
 
 	const dataTypes = ['int', 'varchar', 'char', 'numeric', 'bigint', 'real', 'tinyint', 'decimal', 'text', 'float'];
 
-	const checkFields = dataTypes.map(it => {
+	const checkFields = dataTypes.map((it) => {
 		if (line.includes(it)) return true;
 	});
 
@@ -34,24 +36,17 @@ const checkField = lineRaw => {
 	return false;
 };
 
-const generateTableName = str => {
-	const getUnderscore = str.indexOf('_');
-	if (getUnderscore !== -1) {
-		let string = str.split('');
+const camelCase = (str) => {
+	return (str.slice(0, 1).toLowerCase() + str.slice(1))
+		.replace(/([-_ ]){1,}/g, ' ')
+		.split(/[-_ ]/)
+		.reduce((cur, acc) => {
+			return cur + acc[0].toUpperCase() + acc.substring(1);
+		});
+};
 
-		for (let [i] in str.split('')) {
-			if (string[i] === '_') {
-				let pos = Number(i) + 1;
-				console.log('Make UpperCase', string[pos], pos);
-				string[pos] = string[pos].toUpperCase();
-				string.splice(Number(i), 1);
-			}
-		}
-
-		string = string.join('');
-		return ucwords(string);
-	}
-	return ucwords(str);
+const generateTableName = (str) => {
+	return ucwords(camelCase(str));
 };
 
 export { ucwords, selectDatatype, checkField, generateTableName };
