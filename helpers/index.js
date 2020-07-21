@@ -3,7 +3,13 @@ const ucwords = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 const selectDatatype = (fieldLineRaw) => {
 	const fieldLine = fieldLineRaw.toLowerCase();
 
-	if (fieldLine.includes('varchar') || fieldLine.includes('text') || fieldLine.includes('char')) return 'String';
+	if (
+		fieldLine.includes('varchar') ||
+		fieldLine.includes('text') ||
+		fieldLine.includes('char') ||
+		fieldLine.includes('datetime')
+	)
+		return 'String';
 
 	if (fieldLine.includes('decimal') || fieldLine.includes('float')) return 'Float';
 
@@ -26,7 +32,19 @@ const checkField = (lineRaw) => {
 		return false;
 	}
 
-	const dataTypes = ['int', 'varchar', 'char', 'numeric', 'bigint', 'real', 'tinyint', 'decimal', 'text', 'float'];
+	const dataTypes = [
+		'int',
+		'varchar',
+		'char',
+		'numeric',
+		'bigint',
+		'real',
+		'tinyint',
+		'decimal',
+		'text',
+		'float',
+		'datetime',
+	];
 
 	const checkFields = dataTypes.map((it) => {
 		if (line.includes(it)) return true;

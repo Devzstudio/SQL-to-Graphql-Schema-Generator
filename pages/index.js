@@ -28,7 +28,7 @@ const CodePart = dynamic(() => import('../components/CodePart'), { ssr: false })
 const Home = () => {
 	const [query, setQuery] = useState();
 	const [schema, setSchema] = useState('');
-	const darkMode = useDarkMode(false);
+	const darkMode = useDarkMode(true);
 
 	useHotkeys('ctrl+v', async () => {
 		const text = await navigator.clipboard.readText();
