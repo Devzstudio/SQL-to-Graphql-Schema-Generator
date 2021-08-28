@@ -26,7 +26,8 @@ const selectDatatype = (fieldLineRaw) => {
 
 const checkField = (lineRaw) => {
 	const line = lineRaw.toLowerCase();
-	const excludeKeywords = ['charset', 'constraint', 'foreign key', 'engine'];
+	const excludeKeywords = ['charset', 'constraint', 'foreign key', 'engine', 'create schema'];
+
 	const isBlacklisted = excludeKeywords.some((keyword) => line.includes(keyword));
 	if (isBlacklisted) {
 		return false;
@@ -67,4 +68,8 @@ const generateTableName = (str) => {
 	return ucwords(camelCase(str));
 };
 
-export { ucwords, selectDatatype, checkField, generateTableName };
+const lineIsComment = (line) => {
+	return line.startsWith('--') || line.startsWith("/*")
+}
+
+export { ucwords, selectDatatype, checkField, generateTableName, lineIsComment };

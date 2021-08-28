@@ -12,7 +12,7 @@ import Head from 'next/head';
 // import useLocalStorage from '../helpers/useLocalStorage';
 
 import Nav from '../components/nav';
-import { generateTableName, selectDatatype, checkField } from '../helpers/index';
+import { generateTableName, selectDatatype, checkField, lineIsComment } from '../helpers/index';
 import './style.css';
 
 import 'codemirror/lib/codemirror.css';
@@ -41,33 +41,39 @@ const Home = () => {
 
 	const makeSchema = () => {
 		const newQuery = sqlPrettier.format(query);
-		// setQuery(newQuery);
-		const lines = newQuery.split('\n');
+		
+		const lines = newQuery.split(/[\r\n]+/).filter(r => r.trim().length > 0);
+
 		let graphqlSchema = '';
+
 		for (var i = 0; i < lines.length; i++) {
-			if (lines[i].toLowerCase().includes('create table')) {
-				const tableName = lines[i]
+
+			const currentLine = lines[i].trim().replaceAll('`', '');
+
+			if(lineIsComment(currentLine)) {
+				continue;
+			}
+
+			if (currentLine.toLowerCase().includes('create table')) {
+				const tableName = currentLine
 					.toLowerCase()
 					.replace('create table', '')
 					.replace(/[^\w\s]/gi, '');
-				graphqlSchema += `type ${generateTableName(tableName.trim())} {
-        `;
+				graphqlSchema += `type ${generateTableName(tableName.trim())} {\r\n`;
 			}
 
-			if (lines[i].trim().startsWith(')')) {
-				graphqlSchema += `}
-`;
+			if (currentLine.startsWith(')')) {
+				graphqlSchema += `}\r\n\r\n`;
 			}
 
-			if (checkField(lines[i].trim())) {
-				const fieldLine = lines[i].trim();
+			if (checkField(currentLine)) {
+				const fieldLine = currentLine;
 				const getField = fieldLine.substr(0, fieldLine.indexOf(' ')).replace(/[^\w\s]/gi, '');
 				const notNull = fieldLine.includes('NOT NULL');
 				let type = '';
 				if (getField === 'id' || getField.includes('_id')) type = 'ID';
 				else type = selectDatatype(fieldLine.toLowerCase());
-				graphqlSchema += `${getField}: ${type}${notNull ? '!' : ''}
-        `;
+				graphqlSchema += `        ${getField}: ${type}${notNull ? '!' : ''}\r\n`;
 			}
 
 			setSchema(graphqlSchema);
